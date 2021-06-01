@@ -14,7 +14,7 @@ def check_df(dataframe, head=5):
     print(" - tail - ".upper().center(50, "*"))
     print(dataframe.tail(head))
     print(" - info - ".upper().center(50, "*"))
-    print(dataframe.info())
+    dataframe.info()
     print(" - columns - ".upper().center(50, "*"))
     print(dataframe.columns)
     print(" - values - ".upper().center(50, "*"))
@@ -54,9 +54,12 @@ df["COUNTRY"].value_counts()
 
 # ▪ How much was earned in total from sales by 'COUNTRY'?
 df.groupby("COUNTRY").agg({"PRICE": "sum"})
+df.groupby("COUNTRY")["PRICE"].sum()
 
 # ▪ What are the sales numbers by 'SOURCE' types?
 df["SOURCE"].value_counts()
+df.groupby("SOURCE")["PRICE"].count()
+df.groupby("SOURCE").agg({"PRICE": "count"})
 
 # ▪ What are the 'PRICE' averages by <COUNTRY>?
 df.groupby("COUNTRY").agg({"PRICE": "mean"})
@@ -68,12 +71,12 @@ df.groupby("SOURCE").agg({"PRICE": "mean"})
 df.groupby(["COUNTRY", "SOURCE"]).agg({"PRICE": "mean"})
 
 # TASK-2
-# ▪ What is the total earnings in distribution of 'COUNTRY, SOURCE, GENDER, AGE'?
-df.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).agg({"PRICE": "sum"})
+# ▪ What is the average earnings in the distribution of 'COUNTRY, SOURCE, GENDER, AGE'?
+df.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).agg({"PRICE": "mean"})
 
 # TASK-3
 # ▪ Sort the output by 'PRICE'. Apply in descending order according to 'PRICE'. Save the output as agg_df.
-agg_df = df.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).agg({"PRICE": "sum"}).sort_values(by="PRICE", ascending=False)
+agg_df = df.groupby(["COUNTRY", "SOURCE", "SEX", "AGE"]).agg({"PRICE": "mean"}).sort_values(by="PRICE", ascending=False)
 
 # TASK-4
 # ▪ Convert the names in the index to variable names.
@@ -142,21 +145,22 @@ def new_persona(dataframe, col, age, country, sources, sex):
     Parameters
     ----------
     dataframe: Dataframe
-        data set to make predictions
-    col: string
-        specified column name
+       The dataframe we will review
+    col: str
+        Name of related variable
     age: int
-        determined age ranges
+        Age of the relevant variable
     country: string
-        entered country
+        Country of the relevant variable
     sources: string
-        desired sources
+        Device type of the relevant variable
     sex: string
-        desired sex
+        Gender of the relevant variable
     Returns
     -------
-    There isn't statement return
-
+    None
+        This function creates and visualizes the function table of the properties and returns None.
+  
     """
     if (0 <= age <= 18):
         age_cat = "0_18"
